@@ -13,7 +13,7 @@ st.title('CSV Data Viewer')
 st.write('This app loads and displays data from a CSV file.')
 
 # Path to the local CSV file
-file_path = 'Avito_Dataset old.csv'  # Update with your local file path
+file_path = 'Final_Avito_Dataset.csv'  # Update with your local file path
 
 if file_path:
     try:
