@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Chargement des données
+# Chargement des données depuis le fichier uploadé
 file_path = 'Final_Avito_Dataset.csv'
 data = pd.read_csv(file_path)
 
@@ -58,7 +58,7 @@ plt.figure(figsize=(12, 8))
 sns.heatmap(corr, annot=True, cmap='coolwarm', linewidths=0.5)
 st.pyplot(plt)
 
-# Scatter plot entre deux colonnes
+# Scatter Plot entre deux colonnes
 st.header('Scatter Plot entre Deux Colonnes')
 col1 = st.selectbox('Sélectionnez la première colonne:', numeric_data.columns)
 col2 = st.selectbox('Sélectionnez la deuxième colonne:', numeric_data.columns)
