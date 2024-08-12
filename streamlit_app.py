@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Chargement des données
-file_path = '/mnt/data/Final_Avito_Dataset.csv'
+file_path = 'Final_Avito_Dataset.csv'
 data = pd.read_csv(file_path)
 
 # Titre de l'application
