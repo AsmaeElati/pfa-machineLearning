@@ -20,14 +20,17 @@ st.write(data.describe())
 
 # Visualisation de la dispersion des prix en fonction des villes
 st.header('Dispersion des Prix par Ville')
-plt.figure(figsize=(12, 8))
-sns.boxplot(x='City', y='Price', data=data)
+fig, ax = plt.subplots(figsize=(12, 8))
+sns.boxplot(x='City', y='Price', data=data, ax=ax)
 plt.xticks(rotation=45)
-plt.title('Répartition des Prix par Ville')
-st.pyplot(plt)
+ax.set_title('Répartition des Prix par Ville')
+st.pyplot(fig)
+plt.close(fig)  # Fermer la figure pour éviter les conflits
 
 # Sélection d'une colonne pour l'analyse des outliers
 st.header('Détection des Outliers')
+numeric_columns = data.select_dtypes(include=['float64', 'int64']).columns
+
 if len(numeric_columns) == 0:
     st.error("Aucune colonne numérique disponible pour l'analyse.")
 else:
@@ -35,9 +38,10 @@ else:
 
     if selected_column:
         st.subheader(f'Box Plot de {selected_column}')
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(x=data[selected_column])
-        st.pyplot(plt)
+        fig, ax = plt.subplots(figsize=(10, 6))
+        sns.boxplot(x=data[selected_column], ax=ax)
+        st.pyplot(fig)
+        plt.close(fig)
 
         Q1 = data[selected_column].quantile(0.25)
         Q3 = data[selected_column].quantile(0.75)
@@ -54,9 +58,10 @@ st.header('Heatmap des Corrélations')
 
 if len(numeric_columns) > 0:
     corr = data[numeric_columns].corr()
-    plt.figure(figsize=(12, 8))
-    sns.heatmap(corr, annot=True, cmap='coolwarm', linewidths=0.5)
-    st.pyplot(plt)
+    fig, ax = plt.subplots(figsize=(12, 8))
+    sns.heatmap(corr, annot=True, cmap='coolwarm', linewidths=0.5, ax=ax)
+    st.pyplot(fig)
+    plt.close(fig)
 else:
     st.error("Aucune colonne numérique disponible pour la heatmap des corrélations.")
 
@@ -67,9 +72,10 @@ if len(numeric_columns) > 1:
     col2 = st.selectbox('Sélectionnez la deuxième colonne:', numeric_columns)
 
     st.subheader(f'Scatter Plot entre {col1} et {col2}')
-    plt.figure(figsize=(10, 6))
-    sns.scatterplot(x=data[col1], y=data[col2])
-    st.pyplot(plt)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.scatterplot(x=data[col1], y=data[col2], ax=ax)
+    st.pyplot(fig)
+    plt.close(fig)
 
 # Analyse de regroupement
 st.header('Analyse de Regroupement')
