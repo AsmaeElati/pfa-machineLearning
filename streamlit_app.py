@@ -3,9 +3,15 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Chargement des données depuis le fichier uploadé
+# Chargement des données depuis le fichier uploadé avec un encodage alternatif
 file_path = 'Final_Avito_Dataset.csv'
-data = pd.read_csv(file_path, sep=';')
+
+try:
+    # Tentative de chargement avec utf-8
+    data = pd.read_csv(file_path, sep=';', encoding='utf-8')
+except UnicodeDecodeError:
+    # Si utf-8 échoue, essayer avec latin1
+    data = pd.read_csv(file_path, sep=';', encoding='latin1')
 
 # Titre de l'application
 st.title('Analyse et Visualisation du Dataset Avito')
