@@ -3,15 +3,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Chargement des données depuis le fichier uploadé avec un encodage alternatif
+# Chargement des données depuis le fichier uploadé avec le bon encodage et séparateur
 file_path = 'Final_Avito_Dataset.csv'
-
-try:
-    # Tentative de chargement avec utf-8
-    data = pd.read_csv(file_path, sep=';', encoding='utf-8')
-except UnicodeDecodeError:
-    # Si utf-8 échoue, essayer avec latin1
-    data = pd.read_csv(file_path, sep=';', encoding='latin1')
+data = pd.read_csv(file_path, sep=',', encoding='latin1')
 
 # Titre de l'application
 st.title('Analyse et Visualisation du Dataset Avito')
@@ -51,23 +45,24 @@ else:
 # Heatmap des corrélations
 st.header('Heatmap des Corrélations')
 
-# Calculer la matrice de corrélation
-corr = data[numeric_columns].corr()
-
-# Afficher la heatmap des corrélations
-plt.figure(figsize=(12, 8))
-sns.heatmap(corr, annot=True, cmap='coolwarm', linewidths=0.5)
-st.pyplot(plt)
+if len(numeric_columns) > 0:
+    corr = data[numeric_columns].corr()
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(corr, annot=True, cmap='coolwarm', linewidths=0.5)
+    st.pyplot(plt)
+else:
+    st.error("Aucune colonne numérique disponible pour la heatmap des corrélations.")
 
 # Scatter Plot entre deux colonnes
-st.header('Scatter Plot entre Deux Colonnes')
-col1 = st.selectbox('Sélectionnez la première colonne:', numeric_columns)
-col2 = st.selectbox('Sélectionnez la deuxième colonne:', numeric_columns)
+if len(numeric_columns) > 1:
+    st.header('Scatter Plot entre Deux Colonnes')
+    col1 = st.selectbox('Sélectionnez la première colonne:', numeric_columns)
+    col2 = st.selectbox('Sélectionnez la deuxième colonne:', numeric_columns)
 
-st.subheader(f'Scatter Plot entre {col1} et {col2}')
-plt.figure(figsize=(10, 6))
-sns.scatterplot(x=data[col1], y=data[col2])
-st.pyplot(plt)
+    st.subheader(f'Scatter Plot entre {col1} et {col2}')
+    plt.figure(figsize=(10, 6))
+    sns.scatterplot(x=data[col1], y=data[col2])
+    st.pyplot(plt)
 
 # Analyse de regroupement
 st.header('Analyse de Regroupement')
