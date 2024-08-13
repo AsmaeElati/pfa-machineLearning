@@ -7,14 +7,6 @@ import matplotlib.pyplot as plt
 file_path = 'Final_Avito_Dataset.csv'
 data = pd.read_csv(file_path, sep=',', encoding='latin1')
 
-# Convertir des colonnes catégoriques en numériques pour le scatter plot
-data['City_code'] = data['City'].astype('category').cat.codes
-data['Type_code'] = data['Type'].astype('category').cat.codes
-
-# Ajouter ces colonnes à la liste des colonnes numériques
-numeric_columns = data.select_dtypes(include=['float64', 'int64']).columns
-numeric_columns = numeric_columns.append(pd.Index(['City_code', 'Type_code']))
-
 # Titre de l'application
 st.title('Analyse et Visualisation du Dataset Avito')
 
@@ -25,6 +17,14 @@ st.write(data.head())
 # Statistiques descriptives
 st.header('Statistiques Descriptives')
 st.write(data.describe())
+
+# Visualisation de la dispersion des prix en fonction des villes
+st.header('Dispersion des Prix par Ville')
+plt.figure(figsize=(12, 8))
+sns.boxplot(x='City', y='Price', data=data)
+plt.xticks(rotation=45)
+plt.title('Répartition des Prix par Ville')
+st.pyplot(plt)
 
 # Sélection d'une colonne pour l'analyse des outliers
 st.header('Détection des Outliers')
